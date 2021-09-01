@@ -301,7 +301,7 @@ screen navigation():
 
         if main_menu:
 
-            textbutton _("Start") action Start()
+            textbutton _("Start") action ShowMenu("chapterselect")
 
         else:
 
@@ -345,6 +345,59 @@ style navigation_button:
 style navigation_button_text:
     properties gui.button_text_properties("navigation_button")
 
+screen chapterselect():
+    tag menu
+    
+    default rtnum = Tooltip("Select Route")
+    default rtflavor = Tooltip("Play a chapter by clicking on it.")
+    
+    use game_menu(_("Chapter select"), scroll="viewport"):
+        style_prefix "about"
+
+        vbox:
+            xfill True
+                    
+            frame:
+                xsize 850
+                ysize 175
+                xpadding 12
+                ypadding 12
+                xalign 0.5
+                hbox:
+                    fixed:
+                        xsize 150
+                        ysize 150
+                        frame:
+                            background Solid("#aaa")
+                            xfill True
+                            yfill True
+                            text "Image Placeholder" color "#333" xalign .5 yalign .5 size 15
+                    vbox:
+                        xfill True
+                        ysize 100
+                        yalign .5
+                        text rtnum.value xalign .5 size 40 yalign .5 color "#a30000"
+                        text rtflavor.value xalign .5 size 30 yalign .5
+            
+            null height 25
+            
+            hbox:
+                spacing 10
+                xmaximum 850
+                xalign .5
+                box_wrap True
+                box_wrap_spacing 10
+                
+                button:
+                    xysize(75,75)
+                    background Frame("gui/window_icon.png", 0, 0)
+                    action [Jump("ch0"),Return()]
+                    hovered [rtnum.Action("Volume 0"),rtflavor.Action("\"De8ugger? I 8arely even know 'er!\"")]
+                    
+                for x in range(0,9): ## these are just here as position placeholders for the chapter buttons, decrease amount when new chapters get added
+                    frame:
+                        xysize (75,75)
+                        background None
 
 ## Main Menu screen ############################################################
 ##
@@ -550,6 +603,8 @@ screen about():
     ## This use statement includes the game_menu screen inside this one. The
     ## vbox child is then included inside the viewport inside the game_menu
     ## screen.
+    
+    ## also we should probably add some credits here sometime
     use game_menu(_("About"), scroll="viewport"):
 
         style_prefix "about"
