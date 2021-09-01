@@ -1,8 +1,6 @@
 ﻿define v = Character("Vriska",color="#005682")
-define a = Character("Aradia",color="#a10000")
-define s = Character("Sollux",color="#a1a100")
 
-label start:
+label ch0:
 
     show pir8ship:
      size(1280,720)
@@ -49,5 +47,4 @@ label end:
     pause
     
     $ quick_menu = True
-    
-    return
+    $renpy.full_restart()
