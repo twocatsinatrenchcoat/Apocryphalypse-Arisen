@@ -1350,33 +1350,92 @@ style notify_text:
 screen nvl(dialogue, items=None):
 
     window:
-        style "nvl_window"
+    
+        xsize 705
+        ysize 505
+        xalign .5
+        yalign .5
+    
+        background Solid("#ffff01")
+    
+        window:    
+            xsize 700
+            ysize 500
+            xalign .5
+            yalign .5
+    
+            background Solid("#fec200")
+            vbox:
+                xalign .5
+                
+                frame:
+                    text "::[contactname]::" xalign .5 size 20 color "#ffff01"
+                    xfill True
+                    background Solid("#c68d00")
+                    padding (5,5)
+                
+                null height 10
+                
+                window:    
+                    xsize 665
+                    ysize 345
+                    xalign .5
+                    yalign .5
+        
+                    background Solid("#c68d00")
+                    padding (5,5)
+                    window:    
+                        xsize 660
+                        ysize 340
+                        xalign .5
+                        yalign .5
+            
+                        background Solid("#ffffff")
+                        padding (10,5)
 
-        has vbox:
-            spacing gui.nvl_spacing
+                    
+                        vbox:
+                            spacing gui.nvl_spacing
 
-        ## Displays dialogue in either a vpgrid or the vbox.
-        if gui.nvl_height:
+                        ## Displays dialogue in either a vpgrid or the vbox.
+                            if gui.nvl_height:
+        
+                                vpgrid:
+                                    cols 1
+                                    yinitial 1.0
 
-            vpgrid:
-                cols 1
-                yinitial 1.0
+                                    use nvl_dialogue(dialogue)
 
-                use nvl_dialogue(dialogue)
+                            else:
+        
+                                use nvl_dialogue(dialogue)
 
-        else:
+                        ## Displays the menu, if given. The menu may be displayed incorrectly if
+                        ## config.narrator_menu is set to True, as it is above.
+                null height 10
+                        
+                window:    
+                    xsize 665
+                    ysize 90
+                    xalign .5
+                    yalign .5
+        
+                    background Solid("#c68d00")
+                    padding (5,5)
+                    window:    
+                        xsize 660
+                        ysize 85
+                        xalign .5
+                        yalign .5
+            
+                        background Solid("#ffffff")
+                        padding (10,5)
+                        vbox:
+                            for i in items:
 
-            use nvl_dialogue(dialogue)
-
-        ## Displays the menu, if given. The menu may be displayed incorrectly if
-        ## config.narrator_menu is set to True, as it is above.
-        for i in items:
-
-            textbutton i.caption:
-                action i.action
-                style "nvl_button"
-
-    add SideImage() xalign 0.0 yalign 1.0
+                                textbutton i.caption:
+                                    action i.action
+                                    text_size 15
 
 
 screen nvl_dialogue(dialogue):
@@ -1388,11 +1447,6 @@ screen nvl_dialogue(dialogue):
 
             fixed:
                 yfit gui.nvl_height is None
-
-                if d.who is not None:
-
-                    text d.who:
-                        id d.who_id
 
                 text d.what:
                     id d.what_id
@@ -1411,13 +1465,6 @@ style nvl_dialogue is say_dialogue
 style nvl_button is button
 style nvl_button_text is button_text
 
-style nvl_window:
-    xfill True
-    yfill True
-
-    background "gui/nvl.png"
-    padding gui.nvl_borders.padding
-
 style nvl_entry:
     xfill True
     ysize gui.nvl_height
@@ -1432,12 +1479,11 @@ style nvl_label:
     text_align gui.nvl_name_xalign
 
 style nvl_dialogue:
-    xpos gui.nvl_text_xpos
-    xanchor gui.nvl_text_xalign
+    xalign .5
     ypos gui.nvl_text_ypos
-    xsize gui.nvl_text_width
     min_width gui.nvl_text_width
-    text_align gui.nvl_text_xalign
+    text_align 0
+    size 15
     layout ("subtitle" if gui.nvl_text_xalign else "tex")
 
 style nvl_thought:
