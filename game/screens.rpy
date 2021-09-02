@@ -1430,12 +1430,15 @@ screen nvl(dialogue, items=None):
             
                         background Solid("#ffffff")
                         padding (10,5)
+                        $ key = str(1)
                         vbox:
                             for i in items:
 
-                                textbutton i.caption:
+                                textbutton key+". "+i.caption:
                                     action i.action
                                     text_size 15
+                                    keysym key
+                                $ key = str(int(key)+1)
 
 
 screen nvl_dialogue(dialogue):
