@@ -1,4 +1,4 @@
-﻿################################################################################
+################################################################################
 ## Initialization
 ################################################################################
 
@@ -302,6 +302,7 @@ screen navigation():
         if main_menu:
 
             textbutton _("Start") action ShowMenu("chapterselect")
+            textbutton _("Character") action ShowMenu("charcreate")
 
         else:
 
@@ -1430,6 +1431,7 @@ screen nvl(dialogue, items=None):
             
                         background Solid("#ffffff")
                         padding (10,5)
+                        
                         $ key = str(1)
                         vbox:
                             for i in items:
