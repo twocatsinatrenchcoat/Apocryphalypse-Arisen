@@ -11,8 +11,6 @@ init offset = -2
 init python:
     gui.init(1280, 720)
 
-
-
 ################################################################################
 ## GUI Configuration Variables
 ################################################################################
@@ -23,7 +21,10 @@ init python:
 ## The colors of text in the interface.
 
 ## An accent color used throughout the interface to label and highlight text.
-define gui.accent_color = u'#a10000'
+
+    if persistent.bloodclr == None:
+        persistent.bloodclr = "#626262"
+define gui.accent_color = persistent.bloodclr
 
 ## The color used for a text button when it is neither selected nor hovered.
 define gui.idle_color = u'#888888'
