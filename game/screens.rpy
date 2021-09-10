@@ -1350,97 +1350,157 @@ style notify_text:
 
 screen nvl(dialogue, items=None):
 
-    window:
-    
-        xsize 705
-        ysize 505
+    $ chumroll = [["apocalypseArisen","#a30000"],["adiosToreador","#a25203"],["twinArmageddons","#a1a100"],["carcinoGeneticist","#626262"],["arsenicCatnip","#416600"],["grimAuxillatrix","#078446"],["gallowsCalibrator","#008282"],["arachnidsGrip","#004182"],["centaursTesticle","#0021cb"],["terminallyCapricious","#440a7f"],["caligulasAquarium","#6a006a"],["cuttlefishCuller","#99004d"]]
+    $ persistent.befriended = [True,True,True,True,True,True,True,True,True,True,True,True]
+
+    hbox:
+        
         xalign .5
         yalign .5
+        
+        window:
     
-        background Solid("#ffff01")
-    
-        window:    
-            xsize 700
-            ysize 500
+            xsize 255
+            ysize 505
             xalign .5
             yalign .5
     
-            background Solid("#fec200")
-            vbox:
+            background Solid("#ffff01")
+    
+            window:    
+                xsize 250
+                ysize 500
                 xalign .5
+                yalign .5
+                padding (5,5)
+
+                background Solid("#fec200")
                 
-                frame:
-                    text "::[contactname]::" xalign .5 size 20 color "#ffff01"
+                vbox:
                     xfill True
-                    background Solid("#c68d00")
-                    padding (5,5)
-                
-                null height 10
-                
-                window:    
-                    xsize 665
-                    ysize 345
+
+                    text "PESTERCHUM 6.0" color "#fff" xalign .5 size 25
+                    
+                    image "pesterchumlogo.png" xsize 225 ysize 59 xalign .5
+
+                    text "   CHUMROLL:" size 15
+                    
+                    null height 3
+                    
+                    window:
+                        xsize 225
+                        ysize 316
+                        padding (2,2)
+                        background Solid("#ffff01")
+                        vbox:
+                            for i in range(0,len(chumroll)):
+                                if persistent.befriended[i]:
+                                    button:
+                                        xfill True
+                                        background Solid("#000")
+                                        text u"\u25CF"+chumroll[i][0] color chumroll[i][1] size 15
+                                        
+                            for i in range(0,len(chumroll)):
+                                if not persistent.befriended[i]:
+                                    button:
+                                        xfill True
+                                        background Solid("#000")
+                                        text u"\u25CF"+chumroll[i][0] color "#333" size 15
+                                    
+
+        null width 15
+
+        window:
+    
+            xsize 705
+            ysize 505
+            xalign .5
+            yalign .5
+    
+            background Solid("#ffff01")
+    
+            window:    
+                xsize 700
+                ysize 500
+                xalign .5
+                yalign .5
+    
+                background Solid("#fec200")
+                vbox:
                     xalign .5
-                    yalign .5
-        
-                    background Solid("#c68d00")
-                    padding (5,5)
+                
+                    frame:
+                        text "::[contactname]::" xalign .5 size 20 color "#ffff01"
+                        xfill True
+                        background Solid("#c68d00")
+                        padding (5,5)
+                
+                    null height 10
+                
                     window:    
-                        xsize 660
-                        ysize 340
+                        xsize 665
+                        ysize 345
                         xalign .5
                         yalign .5
+        
+                        background Solid("#c68d00")
+                        padding (5,5)
+                        window:    
+                            xsize 660
+                            ysize 340
+                            xalign .5
+                            yalign .5
             
-                        background Solid("#ffffff")
-                        padding (10,5)
+                            background Solid("#ffffff")
+                            padding (10,5)
 
                     
-                        vbox:
-                            spacing gui.nvl_spacing
+                            vbox:
+                                spacing gui.nvl_spacing
 
                         ## Displays dialogue in either a vpgrid or the vbox.
-                            if gui.nvl_height:
+                                if gui.nvl_height:
         
-                                vpgrid:
-                                    cols 1
-                                    yinitial 1.0
+                                    vpgrid:
+                                        cols 1
+                                        yinitial 1.0
 
+                                        use nvl_dialogue(dialogue)
+
+                                else:
+        
                                     use nvl_dialogue(dialogue)
-
-                            else:
-        
-                                use nvl_dialogue(dialogue)
 
                         ## Displays the menu, if given. The menu may be displayed incorrectly if
                         ## config.narrator_menu is set to True, as it is above.
-                null height 10
+                    null height 10
                         
-                window:    
-                    xsize 665
-                    ysize 90
-                    xalign .5
-                    yalign .5
-        
-                    background Solid("#c68d00")
-                    padding (5,5)
                     window:    
-                        xsize 660
-                        ysize 85
+                        xsize 665
+                        ysize 90
                         xalign .5
                         yalign .5
+        
+                        background Solid("#c68d00")
+                        padding (5,5)
+                        window:    
+                            xsize 660
+                            ysize 85
+                            xalign .5
+                            yalign .5
             
-                        background Solid("#ffffff")
-                        padding (10,5)
+                            background Solid("#ffffff")
+                            padding (10,5)
                         
-                        $ key = str(1)
-                        vbox:
-                            for i in items:
+                            $ key = str(1)
+                            vbox:
+                                for i in items:
 
-                                textbutton key+". "+i.caption:
-                                    action i.action
-                                    text_size 15
-                                    keysym key
-                                $ key = str(int(key)+1)
+                                    textbutton key+". "+quirk(i.caption):
+                                        action i.action
+                                        text_size 15
+                                        keysym key
+                                    $ key = str(int(key)+1)
 
 
 screen nvl_dialogue(dialogue):
