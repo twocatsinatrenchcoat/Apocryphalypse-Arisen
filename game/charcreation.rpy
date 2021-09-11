@@ -75,6 +75,8 @@ screen charcreate():
                         
                         button background Solid("#a1a100") xsize 60 ysize 30 xalign .5 action [castecreate.Action("#a1a100"),SetVariable("persistent.bloodclr","#a1a100")]
                         
+                        button background Solid("#ff0000") xsize 60 ysize 30 xalign .5 action [castecreate.Action("#ff0000"),SetVariable("persistent.bloodclr","#ff0000")]
+                        
                         button background Solid("#416600") xsize 60 ysize 30 xalign .5 action [castecreate.Action("#416600"),SetVariable("persistent.bloodclr","#416600")]
                         
                         button background Solid("#078446") xsize 60 ysize 30 xalign .5 action [castecreate.Action("#078446"),SetVariable("persistent.bloodclr","#078446")]
