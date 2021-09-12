@@ -1,22 +1,43 @@
+init offset = -1
+
 init python:
     import re
 
+    if persistent.bloodclr == None:
+        persistent.bloodclr = "#626262"
+        
     if persistent.quirklist == None:
-        persistent.quirklist = []
-    templist = []
+        persistent.quirklist = [] 
 
     def quirk(text):
         modstr = text
         for x in persistent.quirklist:
+            try:
+                re.sub(x[0],x[1],modstr,0,flags=re.IGNORECASE)
+            except:
+                modstr = text + "(Quirk error - Invalid replace)"
+                break
             modstr = re.sub(x[0],x[1],modstr,0,flags=re.IGNORECASE)
             if r"\U" in modstr:
                 for x in range(0,len(modstr)-2):
                     if modstr[x:x+2] == r"\U":
-                        modstr = modstr.replace(modstr[x:x+3], modstr[x+2].upper())
+                        try:
+                            modstr.replace(modstr[x:x+3], modstr[x+2].upper())
+                        except:
+                            modstr = text + "(Quirk error - Lookup string too short to capitalize)"
+                            break
+                        else:
+                            modstr = modstr.replace(modstr[x:x+3], modstr[x+2].upper())
             if r"\l" in modstr:
                 for x in range(0,len(modstr)-2):
                     if modstr[x:x+2] == r"\l":
-                        modstr = modstr.replace(modstr[x:x+3], modstr[x+2].lower())
+                        try:
+                            modstr.replace(modstr[x:x+3], modstr[x+2].lower())
+                        except:
+                            modstr = text + "(Quirk error - Lookup string too short to decapitalize)"
+                            break
+                        else:
+                            modstr = modstr.replace(modstr[x:x+3], modstr[x+2].lower())
         return modstr
 
     def quirkadd(lkup,rplc):
@@ -25,10 +46,16 @@ init python:
         rplc = ""
 
     def quirkrem(rem):
-        persistent.quirklist.remove(rem)
+        del persistent.quirklist[rem]
+
+    focusnumber = -1
+    quirktemp1 = "Lookup"
+    quirktemp2 = "Replace"
 
     if persistent.name == None:
         persistent.name = "None"
+        
+    namevar = persistent.name
 
 screen charcreate():
     tag menu
@@ -37,13 +64,11 @@ screen charcreate():
     
     default aprnc_tab = Tooltip(1)
 
-    default namefield = Tooltip(persistent.name)
-
-    default quirktemp1 = "Lookup"
-    default quirktemp2 = "Replace"
 
     use game_menu(_("Character creation"), scroll="viewport"):
         style_prefix "about"
+        
+        key "K_RETURN" action SetVariable("focusnumber",-1)
         
         vbox:
             xfill True
@@ -69,13 +94,13 @@ screen charcreate():
                             
                         null height 10
                         
+                        button background Solid("#ff0000") xsize 60 ysize 30 xalign .5 action [castecreate.Action("#ff0000"),SetVariable("persistent.bloodclr","#ff0000")]
+                        
                         button background Solid("#a30000") xsize 60 ysize 30 xalign .5 action [castecreate.Action("#a30000"),SetVariable("persistent.bloodclr","#a30000")]
                         
                         button background Solid("#a25203") xsize 60 ysize 30 xalign .5 action [castecreate.Action("#a25203"),SetVariable("persistent.bloodclr","#a25203")]
                         
                         button background Solid("#a1a100") xsize 60 ysize 30 xalign .5 action [castecreate.Action("#a1a100"),SetVariable("persistent.bloodclr","#a1a100")]
-                        
-                        button background Solid("#ff0000") xsize 60 ysize 30 xalign .5 action [castecreate.Action("#ff0000"),SetVariable("persistent.bloodclr","#ff0000")]
                         
                         button background Solid("#416600") xsize 60 ysize 30 xalign .5 action [castecreate.Action("#416600"),SetVariable("persistent.bloodclr","#416600")]
                         
@@ -146,8 +171,18 @@ screen charcreate():
                                     vbox:
                                         text "NAME:" size 15
                                         hbox: 
-                                            text namefield.value size 40
-                                            textbutton u"\u270E"text_size 40 text_font "DejaVuSans.ttf" text_color "#fff"
+                                            if focusnumber == 2:
+                                                window:
+                                                    xsize 290
+                                                    ysize 40
+                                                    background Solid("#444")
+                                                    input value VariableInputValue("namevar") copypaste True length 13 size 37 color "#fff"
+                                                $ persistent.name = namevar
+                                            else:
+                                                text persistent.name size 37
+                                                textbutton u"\u270E" text_size 37 text_font "DejaVuSans.ttf" text_color "#fff" action SetVariable("focusnumber",2)
+                                        if focusnumber == 2:
+                                            null height 12
                                 hbox:
                                     xalign .5
                                     xoffset -2
@@ -205,7 +240,7 @@ screen charcreate():
                     text quirk("Pack my box with five dozen liquor jugs.") size 15
 
                     text quirk("Tip: Put two slashes followed by either an uppercase U or lowercase l before a matched regex group for upper- and lowercase text, respectively.") size 15
-                    
+                  
                     frame:
                         ysize 3
                         background Solid(castecreate.value)
@@ -217,51 +252,52 @@ screen charcreate():
                             spacing 12
                             text str(i+1)+"." size 20
 
-                            button:
-                                xysize (250,20)
-                                background Solid("#333")
-                                text x[0] size 16 yalign .5
-                                action Function(renpy.call_in_new_context,"inpt",*str(i)+"0")
+                            if focusnumber == 2*i+3:
+                                window:
+                                    background Solid("#444")
+                                    input value DictInputValue(persistent.quirklist[i],0) copypaste True
+                                    xysize (250,20)
+                                    yalign .5
+                            else:
+                                textbutton "%s" % (x[0]) action SetVariable("focusnumber",2*i+3) xysize (250,20) background Solid("#333") text_size 20 text_yalign .5
                             text "=" size 20
-                            button:
-                                xysize (250,20)
-                                background Solid("#333")
-                                text x[1] size 16 yalign .5
-                                action Function(renpy.call_in_new_context,"inpt",*str(i)+"1")
+                            if focusnumber == 2*i+4:
+                                window:
+                                    background Solid("#444")
+                                    input value DictInputValue(persistent.quirklist[i],1) copypaste True
+                                    xysize (250,20)
+                                    yalign .5
+                            else:
+                                textbutton "%s" % (x[1]) action SetVariable("focusnumber",2*i+4) xysize (250,20) background Solid("#333") text_size 20 text_yalign .5
                             button:
                                 xysize (20,20)
                                 text "-" size 20 yalign .5
                                 background Solid("#a30000")
-                                action Function(quirkrem,x)
-                            
+                                action Function(quirkrem,i)
                 
                     hbox:
                         spacing 12
                         text str(len(persistent.quirklist)+1)+"." size 20
 
-                        button:
-                            xysize (250,20)
-                            background Solid("#333")
-                            text quirktemp1 size 16 yalign .5
-                            action Function(renpy.call_in_new_context,"inpt",*[quirktemp1])
+                        if focusnumber == 0:
+                            window:
+                                background Solid("#444")
+                                input value VariableInputValue("quirktemp1") copypaste True
+                                xysize (250,20)
+                                yalign .5
+                        else:
+                            textbutton "[quirktemp1]" action SetVariable("focusnumber",0) xysize (250,20) background Solid("#333") text_size 20 text_yalign .5
                         text "=" size 20
-                        button:
-                            xysize (250,20)
-                            background Solid("#333")
-                            text quirktemp2 size 16 yalign .5
-                            action Function(renpy.call_in_new_context,"inpt",*[quirktemp2])
+                        if focusnumber == 1:
+                            window:
+                                background Solid("#444")
+                                input value VariableInputValue("quirktemp2") copypaste True
+                                xysize (250,20)
+                                yalign .5
+                        else:
+                            textbutton "[quirktemp2]" action SetVariable("focusnumber",1) xysize (250,20) background Solid("#333") text_size 20 text_yalign .5
                         button:
                             xysize (20,20)
                             text "+" size 20 yalign .5
                             background Solid("#658200")
                             action Function(quirkadd,quirktemp1,quirktemp2)
-
-label inpt(var,var2="-1"):
-
-    python:
-        inptv = renpy.input('Input:')
-        if var2.isdigit() and var2 > 0:
-            persistent.quirklist[int(var)][int(var2)] = inptv
-        else:
-            globals()[var] = inptv
-        renpy.pause()
