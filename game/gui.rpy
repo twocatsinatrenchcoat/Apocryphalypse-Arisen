@@ -22,8 +22,6 @@ init python:
 
 ## An accent color used throughout the interface to label and highlight text.
 
-    if persistent.bloodclr == None:
-        persistent.bloodclr = "#626262"
 define gui.accent_color = persistent.bloodclr
 
 ## The color used for a text button when it is neither selected nor hovered.
