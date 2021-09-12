@@ -6,6 +6,9 @@ init python:
     if persistent.bloodclr == None:
         persistent.bloodclr = "#626262"
         
+    if persistent.bloodclr_string == None:
+        persistent.bloodclr_string = "None"
+        
     if persistent.quirklist == None:
         persistent.quirklist = [] 
 
@@ -92,29 +95,36 @@ screen charcreate():
                             xalign .5
                             text "CURRENT" xalign .5 yalign .5 size 12 color "#000"
                             
-                        null height 10
+                        null height 7.5
                         
-                        button background Solid("#ff0000") xsize 60 ysize 30 xalign .5 action [castecreate.Action("#ff0000"),SetVariable("persistent.bloodclr","#ff0000")]
+                        if persistent.ee_candyred_unlocked:
+                            button background Solid("#ff0000") xsize 60 ysize 30 xalign .5 action [castecreate.Action("#ff0000"),SetVariable("persistent.bloodclr","#ff0000"),SetVariable("persistent.bloodclr_string","Candy-Red")]
+                        else:
+                            frame:
+                                xysize (60,30) 
+                                xalign .5
+                                background Solid("#626262")
+                                add "padlock.png" xalign .5 yalign .5 size (23,23)
                         
-                        button background Solid("#a30000") xsize 60 ysize 30 xalign .5 action [castecreate.Action("#a30000"),SetVariable("persistent.bloodclr","#a30000")]
+                        button background Solid("#a30000") xsize 60 ysize 30 xalign .5 action [castecreate.Action("#a30000"),SetVariable("persistent.bloodclr","#a30000"),SetVariable("persistent.bloodclr_string","Rust")]
                         
-                        button background Solid("#a25203") xsize 60 ysize 30 xalign .5 action [castecreate.Action("#a25203"),SetVariable("persistent.bloodclr","#a25203")]
+                        button background Solid("#a25203") xsize 60 ysize 30 xalign .5 action [castecreate.Action("#a25203"),SetVariable("persistent.bloodclr","#a25203"),SetVariable("persistent.bloodclr_string","Bronze")]
                         
-                        button background Solid("#a1a100") xsize 60 ysize 30 xalign .5 action [castecreate.Action("#a1a100"),SetVariable("persistent.bloodclr","#a1a100")]
+                        button background Solid("#a1a100") xsize 60 ysize 30 xalign .5 action [castecreate.Action("#a1a100"),SetVariable("persistent.bloodclr","#a1a100"),SetVariable("persistent.bloodclr_string","Gold")]
                         
-                        button background Solid("#416600") xsize 60 ysize 30 xalign .5 action [castecreate.Action("#416600"),SetVariable("persistent.bloodclr","#416600")]
+                        button background Solid("#416600") xsize 60 ysize 30 xalign .5 action [castecreate.Action("#416600"),SetVariable("persistent.bloodclr","#416600"),SetVariable("persistent.bloodclr_string","Olive")]
                         
-                        button background Solid("#078446") xsize 60 ysize 30 xalign .5 action [castecreate.Action("#078446"),SetVariable("persistent.bloodclr","#078446")]
+                        button background Solid("#078446") xsize 60 ysize 30 xalign .5 action [castecreate.Action("#078446"),SetVariable("persistent.bloodclr","#078446"),SetVariable("persistent.bloodclr_string","Jade")]
                         
-                        button background Solid("#008282") xsize 60 ysize 30 xalign .5 action [castecreate.Action("#008282"),SetVariable("persistent.bloodclr","#008282")]
+                        button background Solid("#008282") xsize 60 ysize 30 xalign .5 action [castecreate.Action("#008282"),SetVariable("persistent.bloodclr","#008282"),SetVariable("persistent.bloodclr_string","Teal")]
                         
-                        button background Solid("#004182") xsize 60 ysize 30 xalign .5 action [castecreate.Action("#004182"),SetVariable("persistent.bloodclr","#004182")]
+                        button background Solid("#004182") xsize 60 ysize 30 xalign .5 action [castecreate.Action("#004182"),SetVariable("persistent.bloodclr","#004182"),SetVariable("persistent.bloodclr_string","Cerulean")]
                         
-                        button background Solid("#0021cb") xsize 60 ysize 30 xalign .5 action [castecreate.Action("#0021cb"),SetVariable("persistent.bloodclr","#0021cb")]
+                        button background Solid("#0021cb") xsize 60 ysize 30 xalign .5 action [castecreate.Action("#0021cb"),SetVariable("persistent.bloodclr","#0021cb"),SetVariable("persistent.bloodclr_string","Indigo")]
                         
-                        button background Solid("#440a7f") xsize 60 ysize 30 xalign .5 action [castecreate.Action("#440a7f"),SetVariable("persistent.bloodclr","#440a7f")]
+                        button background Solid("#440a7f") xsize 60 ysize 30 xalign .5 action [castecreate.Action("#440a7f"),SetVariable("persistent.bloodclr","#440a7f"),SetVariable("persistent.bloodclr_string","Purple")]
                         
-                        button background Solid("#6a006a") xsize 60 ysize 30 xalign .5 action [castecreate.Action("#6a006a"),SetVariable("persistent.bloodclr","#6a006a")]
+                        button background Solid("#6a006a") xsize 60 ysize 30 xalign .5 action [castecreate.Action("#6a006a"),SetVariable("persistent.bloodclr","#6a006a"),SetVariable("persistent.bloodclr_string","Violet")]
                 
                 vbox:
                     frame:
