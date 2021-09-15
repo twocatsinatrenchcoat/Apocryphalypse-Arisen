@@ -55,6 +55,8 @@ init python:
     quirktemp1 = "Lookup"
     quirktemp2 = "Replace"
 
+    emotestring = persistent.emote
+
     if persistent.name == None:
         persistent.name = "None"
 
