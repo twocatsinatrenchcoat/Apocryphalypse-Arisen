@@ -4,7 +4,6 @@
 
 init offset = -1
 
-
 ################################################################################
 ## Styles
 ################################################################################
@@ -1352,6 +1351,8 @@ screen nvl(dialogue, items=None):
 
     $ chumroll = [["apocalypseArisen","#a30000"],["adiosToreador","#a25203"],["twinArmageddons","#a1a100"],["carcinoGeneticist","#626262"],["arsenicCatnip","#416600"],["grimAuxillatrix","#078446"],["gallowsCalibrator","#008282"],["arachnidsGrip","#004182"],["centaursTesticle","#0021cb"],["terminallyCapricious","#440a7f"],["caligulasAquarium","#6a006a"],["cuttlefishCuller","#99004d"]]
     $ persistent.befriended = [True,True,True,True,True,True,True,True,True,True,True,True]
+    if persistent.emote == None:
+        $ persistent.emote = "chummy"
 
     hbox:
         
@@ -1382,31 +1383,121 @@ screen nvl(dialogue, items=None):
                     text "PESTERCHUM 6.0" color "#fff" xalign .5 size 25
                     
                     image "pesterchumlogo.png" xsize 225 ysize 59 xalign .5
-
-                    text "   CHUMROLL:" size 15
                     
                     null height 3
+
+                    text "   CHUMROLL:" size 14
                     
                     window:
                         xsize 225
-                        ysize 316
+                        ysize 125
                         padding (2,2)
                         background Solid("#ffff01")
-                        vbox:
-                            for i in range(0,len(chumroll)):
-                                if persistent.befriended[i]:
-                                    button:
-                                        xfill True
-                                        background Solid("#000")
-                                        text u"\u25CF"+chumroll[i][0] color chumroll[i][1] size 15
-                                        
-                            for i in range(0,len(chumroll)):
-                                if not persistent.befriended[i]:
-                                    button:
-                                        xfill True
-                                        background Solid("#000")
-                                        text u"\u25CF"+chumroll[i][0] color "#333" size 15
+                        window:
+                            background Solid("#000")
+                            ysize 120
+                            xsize 220
+                            viewport:
+                                scrollbars "vertical"
+                                mousewheel True
+                                vbox:
+                                    spacing 3
+                                    for i in range(0,len(chumroll)):
+                                        if persistent.befriended[i]:
+                                            button:
+                                                xfill True
+                                                idle_background "#000"
+                                                hover_background "#333"
+                                                action NullAction()
+                                                hbox:
+                                                    text chumroll[i][0] color chumroll[i][1] size 15
+                                    for i in range(0,len(chumroll)):
+                                        if not persistent.befriended[i]:
+                                            hbox:
+                                                text chumroll[i][0] color "#333" size 15
+                    null height 6
+                    window:
+                        xysize(115,30)
+                        xalign .5
+                        background Solid("#c68d00")
+                        button:
+                            text "PESTER!" yalign .5 xalign .5 size 18
+                            background Solid("#ffff01")
+                            hover_background Solid("#ffff55")
+                            xalign .5
+                            yalign .5
+                            xysize(110,25)
+                            action NullAction()
+                            
+                    null height 3
+                            
+                    text "   MYCHUMHANDLE:" size 14
+                    
+                    window:
+                        xsize 225
+                        ysize 30
+                        padding (2,2)
+                        background Solid("#ffff01")
+                        window:
+                            background Solid("#000")
+                            xsize 220
+                            ysize 25
+                            padding (2,2)
+                            hbox:
+                                yalign .5
+                                null width 3
+                                add "emotes/[emotestring].png" yalign .5
+                                null width 3
+                                text persistent.chumhandle color persistent.bloodclr size 15 yalign .5
+
+                    null height 3
+                            
+                    text "   MOOD:" size 14
+                    vbox:
+                        box_wrap True
+                        box_wrap_spacing 2
+                        xalign .5
+                        ysize 150
+                        
+                        $ emotelist = ["chummy","mystified","amazed","insolent","bemused","pranky","smooth","pleasant"]
+                        
+                        for x in emotelist:
+                            frame:
+                                xysize(103,30)
+                                background Solid("#c68d00")
+                                button:
+                                    if emotestring == x:
+                                        background Solid("#ffff55")
+                                    else:
+                                        background Solid("#ffff01")
+                                        hover_background Solid("#ffff55")
+                                    xysize (98,25)
+                                    xalign .5
+                                    yalign .5
+                                    action SetVariable("emotestring",x)
+                                    $ persistent.emote = emotestring
+                                    hbox:
+                                        add "emotes/[x].png"
+                                        text "%s" % x.upper() size 12 offset (2,2) 
                                     
+                        frame:
+                            xysize(103,30)
+                            background Solid("#830000")
+                            button:
+                                if emotestring == "rancorous":
+                                    background Solid("#ff6363")
+                                else:
+                                    background Solid("#ff0101")
+                                    hover_background Solid("#ff6363")
+                                xysize (98,25)
+                                xalign .5
+                                yalign .5
+                                action SetVariable("emotestring","rancorous")
+                                $ persistent.emote = emotestring
+                                hbox:
+                                    add "emotes/rancorous.png"
+                                    text "RANCOROUS" size 12 offset (2,2) 
+                        
 
         null width 15
 
