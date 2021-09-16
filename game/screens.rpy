@@ -1359,12 +1359,13 @@ screen nvl(dialogue, items=None):
         xalign .5
         yalign .5
         
-        window:
+        button:
     
             xsize 255
             ysize 505
             xalign .5
             yalign .5
+            action NullAction()
     
             background Solid("#ffff01")
     
@@ -1459,18 +1460,15 @@ screen nvl(dialogue, items=None):
                         xalign .5
                         ysize 150
                         
-                        $ emotelist = ["chummy","mystified","amazed","insolent","bemused","pranky","smooth","pleasant"]
+                        $ emotelist = ["chummy","mystified","amazed","insolent","bemused","pranky","smooth","pleasant","lusorious"]
                         
                         for x in emotelist:
                             frame:
                                 xysize(103,30)
                                 background Solid("#c68d00")
                                 button:
-                                    if emotestring == x:
-                                        background Solid("#ffff55")
-                                    else:
-                                        background Solid("#ffff01")
-                                        hover_background Solid("#ffff55")
+                                    background Solid("#ffff01")
+                                    hover_background Solid("#ffff55")
                                     xysize (98,25)
                                     xalign .5
                                     yalign .5
@@ -1479,16 +1477,15 @@ screen nvl(dialogue, items=None):
                                     hbox:
                                         add "emotes/[x].png"
                                         text "%s" % x.upper() size 12 offset (2,2) 
+                                    if emotestring == x:
+                                        text u"\u2713" size 15 xpos 80 font "DejaVuSans.ttf"
                                     
                         frame:
                             xysize(103,30)
                             background Solid("#830000")
                             button:
-                                if emotestring == "rancorous":
-                                    background Solid("#ff6363")
-                                else:
-                                    background Solid("#ff0101")
-                                    hover_background Solid("#ff6363")
+                                background Solid("#ff0101")
+                                hover_background Solid("#ff6363")
                                 xysize (98,25)
                                 xalign .5
                                 yalign .5
@@ -1497,6 +1494,8 @@ screen nvl(dialogue, items=None):
                                 hbox:
                                     add "emotes/rancorous.png"
                                     text "RANCOROUS" size 12 offset (2,2) 
+                                if emotestring == "rancorous":
+                                    text u"\u2713" size 15 xpos 80 font "DejaVuSans.ttf"
                         
 
         null width 15
