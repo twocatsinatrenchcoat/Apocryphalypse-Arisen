@@ -416,20 +416,17 @@ screen main_menu():
     frame:
         style "main_menu_frame"
 
+    frame:
+        xsize 1000
+        ysize 200
+        xalign 1.0
+        yalign .3
+        background Image("mmlogos/logo_"+persistent.bloodclr_string.lower()+".png")
+        text "v[config.version]" xpos 685 yalign 1.0 color persistent.bloodclr size 25 outlines [ (absolute(3), "#000", absolute(0), absolute(0))]
+
     ## The use statement includes another screen inside this one. The actual
     ## contents of the main menu are in the navigation screen.
     use navigation
-
-    if gui.show_name:
-
-        vbox:
-            style "main_menu_vbox"
-
-            text "[config.name!t]":
-                style "main_menu_title"
-
-            text "[config.version]":
-                style "main_menu_version"
 
 
 style main_menu_frame is empty
