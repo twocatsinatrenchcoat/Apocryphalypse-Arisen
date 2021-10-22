@@ -45,8 +45,6 @@ init python:
 
     def quirkadd(lkup,rplc):
         persistent.quirklist.append([str(lkup),str(rplc)])
-        lkup = ""
-        rplc = ""
 
     def quirkrem(rem):
         del persistent.quirklist[rem]
@@ -217,42 +215,50 @@ screen charcreate():
                                                 textbutton u"\u270E" text_size 20 text_font "DejaVuSans.ttf" text_color persistent.bloodclr action SetVariable("focusnumber",3)
                                         if focusnumber == 3:
                                             null height 9
-                                hbox:
-                                    xalign .5
-                                    xoffset -2
-                                    ypos 3
-                                    box_wrap True
-                                    spacing 10
-                                    box_wrap_spacing 10
-                                
-                                    if aprnc_tab.value == 1:
-                                        button:
-                                            xysize(75,75)
-                                            background Frame("gui/window_icon.png", 0, 0)
+                                frame:
+                                    xfill True
+                                    yfill True
+                                    xpadding 5
+                                    ypadding 5
+                                    background None
+                                    viewport:
+                                        xfill True
+                                        yfill True
+                                        scrollbars 'vertical'
+                                        mousewheel 'change'
+                                        hbox:
+                                            box_wrap True
+                                            spacing 5
+                                            box_wrap_spacing 5
                                     
-                                    if aprnc_tab.value == 2:
-                                        button:
-                                            xysize(75,75)
-                                            background Frame("gui/window_icon.png", 0, 0)
-                                    
-                                    if aprnc_tab.value == 3:
-                                        button:
-                                            xysize(75,75)
-                                            background Frame("gui/window_icon.png", 0, 0)
-                                    
-                                    if aprnc_tab.value == 4:
-                                        button:
-                                            xysize(75,75)
-                                            background Frame("gui/window_icon.png", 0, 0)
-                                    
-                                    if aprnc_tab.value == 5:
-                                        button:
-                                            xysize(75,75)
-                                            background Frame("gui/window_icon.png", 0, 0)
-                                    for x in range(0,4): ## placeholder, remove if all tabs have four or more items
-                                        frame:
-                                            xysize (75,75)
-                                            background Solid("#fff")
+                                            if aprnc_tab.value == 1:
+                                                button:
+                                                    xysize(75,75)
+                                                    background Frame("gui/window_icon.png", 0, 0)
+                                        
+                                            if aprnc_tab.value == 2:
+                                                button:
+                                                    xysize(75,75)
+                                                    background Frame("gui/window_icon.png", 0, 0)
+                                        
+                                            if aprnc_tab.value == 3:
+                                                button:
+                                                    xysize(75,75)
+                                                    background Frame("gui/window_icon.png", 0, 0)
+                                        
+                                            if aprnc_tab.value == 4:
+                                                button:
+                                                    xysize(75,75)
+                                                    background Frame("gui/window_icon.png", 0, 0)
+                                        
+                                            if aprnc_tab.value == 5:
+                                                button:
+                                                    xysize(75,75)
+                                                    background Frame("gui/window_icon.png", 0, 0)
+                                            for x in range(0,4): ## placeholder, remove if all tabs have four or more items
+                                                frame:
+                                                    xysize (75,75)
+                                                    background Solid("#fff")
                                         
             frame:
                 padding (10,5)
