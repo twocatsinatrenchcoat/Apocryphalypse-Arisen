@@ -1,7 +1,7 @@
 init offset = -1
 
 init python:
-    import re
+    import re, random
 
     if persistent.bloodclr == None:
         persistent.bloodclr = "#626262"
@@ -24,6 +24,9 @@ init python:
         
     def quirk(text):
         modstr = text
+        for i in re.findall(r"\[([\w.]+?)((\[\w+\])*)\]",modstr):
+            v=eval(i[0]+i[1])
+            modstr=re.sub("\["+i[0]+i[1].replace("]","\]").replace("[","\[")+"\]",v,modstr)
         for x in persistent.quirklist:
             try:
                 re.sub(x[0],x[1],modstr,0,flags=re.IGNORECASE)
