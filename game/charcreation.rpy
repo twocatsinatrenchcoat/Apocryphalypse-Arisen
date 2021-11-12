@@ -22,6 +22,9 @@ init python:
         persistent.chumhandle = "anonymousChum"
         persistent.chumabbrev = "AC"
         
+    chsel = None
+    forcecharcreate = False
+        
     def quirk(text):
         modstr = text
         for i in re.findall(r"\[([\w.]+?)((\[\w+\])*)\]",modstr):
@@ -497,3 +500,33 @@ screen charcreate():
                                 action Function(prnsrem,x)
                     if len(persistent.prns)==0:
                         text "No pronouns yet- you can use the buttons above to choose, or click \"Custom\" to input custom neopronouns." color "#626262" size 17
+
+
+label forcecharcreate:
+    define narrator= Character("",what_prefix="??: ",what_color="#000",kind=nvl)
+    $ contactname = "??????????"
+    $ forcecharcreate = True
+
+    pchum "{color=#000}--- ?????????? started pestering You at 15:37 ---{/color}"
+    narrator "I'm aware you're raring to go, but you aren't quite ready yet."
+    narrator "We barely know anything about you at this point."
+    narrator "Please, fill in some details so we know who you are."
+    narrator "When you're done, press 'return' to get back to our little..."
+    narrator "Tête-à-tête."
+    narrator "Don't worry though- this menu can be returned to at any time."
+    while (persistent.name == "None" and persistent.chumhandle == "anonymousChum") or len(persistent.prns)==0:
+        call screen charcreate
+        if (persistent.name == "None" and persistent.chumhandle == "anonymousChum") or len(persistent.prns)==0:
+            narrator "You still aren't quite done."
+            narrator "Please make sure we have your name, chumhandle, and pronouns."
+    narrator "[persistent.name], huh?"
+    if re.search(r"\w{6} \w{6}", persistent.name):
+        narrator "That's quite a nice name."
+    else:
+        narrator "That's quite a nice name, albeit not very troll-y."
+    narrator "Now, I shan't keep you a moment longer."
+    narrator "Have fun out there, will you?"
+    nvl clear
+    $ forcecharcreate = False
+    python:
+        renpy.jump(chsel)
