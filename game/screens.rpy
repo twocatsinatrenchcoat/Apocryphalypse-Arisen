@@ -298,41 +298,45 @@ screen navigation():
 
         spacing gui.navigation_spacing
 
-        if main_menu:
+        if forcecharcreate:
+            text "Please pick a\nname, a chumhandle,\nand some pronouns." color "#fff"
+        
+        else:
+            if main_menu:
 
-            textbutton _("Start") action ShowMenu("chapterselect")
+                textbutton _("Start") action ShowMenu("chapterselect")
             textbutton _("Character") action ShowMenu("charcreate")
 
-        else:
+            if not main_menu:
 
-            textbutton _("History") action ShowMenu("history")
+                textbutton _("History") action ShowMenu("history")
 
-            textbutton _("Save") action ShowMenu("save")
+                textbutton _("Save") action ShowMenu("save")
 
-        textbutton _("Load") action ShowMenu("load")
+            textbutton _("Load") action ShowMenu("load")
 
-        textbutton _("Preferences") action ShowMenu("preferences")
+            textbutton _("Preferences") action ShowMenu("preferences")
 
-        if _in_replay:
+            if _in_replay:
 
-            textbutton _("End Replay") action EndReplay(confirm=True)
+                textbutton _("End Replay") action EndReplay(confirm=True)
 
-        elif not main_menu:
+            elif not main_menu:
 
-            textbutton _("Main Menu") action MainMenu()
+                textbutton _("Main Menu") action MainMenu()
 
-        textbutton _("About") action ShowMenu("about")
+            textbutton _("About") action ShowMenu("about")
 
-        if renpy.variant("pc") or (renpy.variant("web") and not renpy.variant("mobile")):
+            if renpy.variant("pc") or (renpy.variant("web") and not renpy.variant("mobile")):
 
-            ## Help isn't necessary or relevant to mobile devices.
-            textbutton _("Help") action ShowMenu("help")
+                ## Help isn't necessary or relevant to mobile devices.
+                textbutton _("Help") action ShowMenu("help")
 
-        if renpy.variant("pc"):
+            if renpy.variant("pc"):
 
-            ## The quit button is banned on iOS and unnecessary on Android and
-            ## Web.
-            textbutton _("Quit") action Quit(confirm=not main_menu)
+                ## The quit button is banned on iOS and unnecessary on Android and
+                ## Web.
+                textbutton _("Quit") action Quit(confirm=not main_menu)
 
 
 style navigation_button is gui_button
@@ -344,6 +348,47 @@ style navigation_button:
 
 style navigation_button_text:
     properties gui.button_text_properties("navigation_button")
+
+label start:
+
+define aradia = Character("Aradia",color="#a30000")
+define aa = Character("",what_color="#a30000",what_prefix="AA: ",kind=nvl)
+define tavros = Character("Tavros",color="a25203")
+define at = Character("",what_color="#a25203",what_prefix="AT: ",kind=nvl)
+define sollux = Character("Sollux",color="#a1a100")
+define ta = Character("",what_color="#a1a100",what_prefix="TA: ",kind=nvl)
+define karkat = Character("Karkat",color="#626262")
+define cg = Character("",what_color="#626262",what_prefix="CG: ",kind=nvl)
+define nepeta = Character("Nepeta",color="#416600")
+define ac = Character("",what_color="#416600",what_prefix="AC: ",kind=nvl)
+define kanaya = Character("Kanaya",color="#078446")
+define ga = Character("",what_color="#078446",what_prefix="GA: ",kind=nvl)
+define terezi = Character("Terezi",color="#008282")
+define gc = Character("",what_color="#008282",what_prefix="GC: ",kind=nvl)
+define vriska = Character("Vriska",color="#004182")
+define ag = Character("",what_color="#004182",what_prefix="AG: ",kind=nvl)
+define equius = Character("Equius",color="#0021cb")
+define ct = Character("",what_color="#0021cb",what_prefix="CT: ",kind=nvl)
+define gamzee = Character("Gamzee",color="#440a7f")
+define tc = Character("",what_color="#440a7f",what_prefix="TC: ",kind=nvl)
+define eridan = Character("Eridan",color="#6a006a")
+define ca = Character("",what_color="#6a006a",what_prefix="CA: ",kind=nvl)
+define feferi = Character("Feferi",color="#99004d")
+define cc = Character("",what_color="#99004d",what_prefix="CC: ",kind=nvl)
+
+if (persistent.name == "None" and persistent.chumhandle == "anonymousChum") or len(persistent.prns)==0:
+    python:
+        renpy.jump_out_of_context("forcecharcreate")
+    
+define player = Character("",what_color=persistent.bloodclr,what_prefix="[persistent.chumabbrev]: ",kind=nvl)
+define pchum= Character("",what_color=persistent.bloodclr,kind=nvl)
+    
+if chsel!=None:
+    python:
+        renpy.jump_out_of_context(chsel)
+
+    $renpy.full_restart()
+
 
 screen chapterselect():
     tag menu
@@ -391,8 +436,14 @@ screen chapterselect():
                 button:
                     xysize(75,75)
                     background Frame("gui/window_icon.png", 0, 0)
-                    action [Jump("ch0"),Return()]
+                    action [SetVariable("chsel","ch0"),Jump("start")]
                     hovered [rtnum.Action("Volume 0"),rtflavor.Action("\"De8ugger? I 8arely even know 'er!\"")]
+                
+                button:
+                    xysize(75,75)
+                    background Frame("gui/window_icon.png", 0, 0)
+                    action [SetVariable("chsel","ch01"),Jump("start")]
+                    hovered [rtnum.Action("Volume 0.1"),rtflavor.Action("Whose lion is it anyway?")]
                     
                 for x in range(0,9): ## these are just here as position placeholders for the chapter buttons, decrease amount when new chapters get added
                     frame:
